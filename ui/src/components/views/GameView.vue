@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
+import {useUserStore} from "@/stores/user.ts";
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const goToHome = () => {
   router.push('/')
@@ -10,7 +12,7 @@ const goToHome = () => {
 
 <template>
   <div class="container">
-    <img src="/src/assets/6ay5we.jpg" alt=""/>
+    <div id="showName">Hallo, {{ userStore.username }}!</div>
     <button id="backBtn" @click="goToHome">ZURÜCK</button>
   </div>
 </template>
