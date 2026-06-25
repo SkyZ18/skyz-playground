@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.ts";
-import { onMounted, onUnmounted, ref } from "vue";
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -11,44 +10,21 @@ const goToHome = () => {
 }
 
 const gameCollection = new Map([
-  ['Wahrheit o Pflicht', '/src/assets/gamePictures/WahrheitOderPflicht.png'],
-  ['Impostor', '/src/assets/gamePictures/Impostor.png'],
-  ['1', '/src/assets/6ay5we.jpg'],
-  ['2', '/src/assets/6ay5we.jpg'],
-  ['3', '/src/assets/6ay5we.jpg'],
-  ['4', '/src/assets/6ay5we.jpg'],
-  ['5', '/src/assets/6ay5we.jpg'],
-  ['6', '/src/assets/6ay5we.jpg'],
+  ['Wahrheit o Pflicht', '/images/WahrheitOderPflicht.png'],
+  ['Impostor', '/images/Impostor.png'],
+  ['1', '/images/6ay5we.jpg'],
+  ['2', '/images/6ay5we.jpg'],
+  ['3', '/images/6ay5we.jpg'],
+  ['4', '/images/6ay5we.jpg'],
+  ['5', '/images/6ay5we.jpg'],
+  ['6', '/images/6ay5we.jpg'],
 ])
-
-const isShrunk = ref(false)
-
-const handleScroll = () => {
-  if (window.scrollY > 50) {
-    isShrunk.value = true
-  } else {
-    isShrunk.value = false
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-
-  if(localStorage.getItem('username') === null || localStorage.getItem("username") === '') {
-    router.push('/')
-  }
-  userStore.setUsername(localStorage.getItem('username')!.toString())
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
 </script>
 
 <template>
   <div class="container">
     <div class="top">
-      <div class="navbar" :class="{ 'shrunk': isShrunk }">
+      <div class="navbar">
         <h1 id="headline">SkyZ Playground</h1>
         <div class="navbar-row">
           <button id="backBtn" @click="goToHome">‹</button>
