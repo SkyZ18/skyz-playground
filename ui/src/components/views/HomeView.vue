@@ -7,11 +7,18 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const inputName = ref('')
+const showInputWarning = ref(false);
 
 const goToGames = () => {
   userStore.setUsername(inputName.value)
+  localStorage.setItem("username", inputName.value)
   router.push('/games')
 }
+
+const checkLength = () => {
+  showInputWarning.value = inputName.value.length >= 15;
+}
+
 </script>
 
 <template>
@@ -20,11 +27,16 @@ const goToGames = () => {
       <h1 id="headline">SkyZ Playground</h1>
     </div>
     <div class="content">
-      <input id="username" type="text" placeholder="Username" autocomplete="off" v-model="inputName" />
-      <button id="startBtn" @click="goToGames">START</button>
+      <input id="username" type="text" placeholder="Username" autocomplete="off" v-model="inputName" :maxlength="15" @input="checkLength">
+      <transition name="slide-fade">
+          <span v-if="showInputWarning" class="limit-warning">
+            Maximale Länge von 15 Zeichen erreicht!
+          </span>
+      </transition>
+      <button id="startBtn" @click="goToGames" :disabled="inputName.length === 0 || inputName.length >= 15">START</button>
     </div>
     <div class="footer">
-      <p>Made by SkyZ aka. Max Fuhrmann</p>
+      <p>Made by SkyZ | Max Fuhrmann</p>
     </div>
   </div>
 </template>
@@ -45,6 +57,7 @@ const goToGames = () => {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  max-height: 100vh;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -52,7 +65,7 @@ const goToGames = () => {
   .top {
     #headline {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      font-size: 3.5rem;
+      font-size: 2.6rem;
       font-weight: 900;
       font-style: italic;
       letter-spacing: 3px;
@@ -71,6 +84,24 @@ const goToGames = () => {
     flex-direction: column;
     align-items: center;
     height: 100%;
+
+    .limit-warning {
+      position: absolute;
+      margin-top: 8rem;
+      padding: 10px 10px;
+      max-width: 330px;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-transform: uppercase;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+      box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+      animation: fadeIn 0.3s ease-out;
+      text-align: center;
+    }
 
     #username {
       width: 50%;
@@ -107,7 +138,7 @@ const goToGames = () => {
     }
 
     #startBtn {
-      margin-top: 2rem;
+      margin-top: 5rem;
       padding: 20px 60px;
       font-size: 1.25rem;
       font-weight: 800;
@@ -132,11 +163,26 @@ const goToGames = () => {
       transform: translateY(-1px) scale(0.98);
       box-shadow: 0 2px 10px rgba(255, 75, 43, 0.4);
     }
+
+    #startBtn:disabled {
+      background: #333333;
+      color: #666666;
+      box-shadow: none;
+      cursor: not-allowed;
+      transform: none;
+      opacity: 0.6;
+    }
+
+    #startBtn:hover:not(:disabled) {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 8px 25px rgba(255, 75, 43, 0.6);
+      background: linear-gradient(135deg, #ff4b2b 0%, #ff416c 100%);
+    }
   }
 
   .footer {
     display: flex;
-
+    flex-direction: column;
     justify-content: center;
     bottom: 0;
   }
