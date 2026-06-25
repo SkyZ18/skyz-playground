@@ -113,7 +113,7 @@ const checkLength = () => {
       color: #ffffff;
       background-color: #1a1a1a;
       border: 2px solid #2a2a2a;
-      border-radius: 50px;
+      border-radius: 15px;
       outline: none;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -138,15 +138,15 @@ const checkLength = () => {
     }
 
     #startBtn {
-      margin-top: 5rem;
-      padding: 20px 60px;
+      margin-top: 4rem;
+      padding: 18px 85px;
       font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: 2px;
       color: #ffffff;
       text-transform: uppercase;
       border: none;
-      border-radius: 50px;
+      border-radius: 15px;
       cursor: pointer;
       background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
       box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);

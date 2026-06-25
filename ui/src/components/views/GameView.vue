@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.ts";
+import {onMounted, ref} from "vue";
 
 const router = useRouter()
 const userStore = useUserStore()
+
+const inputSearch = ref('')
 
 const goToHome = () => {
   router.push('/')
@@ -12,25 +15,28 @@ const goToHome = () => {
 const gameCollection = new Map([
   ['Wahrheit o Pflicht', '/images/WahrheitOderPflicht.png'],
   ['Impostor', '/images/Impostor.png'],
-  ['1', '/images/6ay5we.jpg'],
-  ['2', '/images/6ay5we.jpg'],
-  ['3', '/images/6ay5we.jpg'],
-  ['4', '/images/6ay5we.jpg'],
-  ['5', '/images/6ay5we.jpg'],
-  ['6', '/images/6ay5we.jpg'],
+  ['Würdest du eher', '/images/WurdestDuEher.png'],
+  ['Princess Treatment', '/images/PrincessTreatment.png'],
 ])
+
+onMounted(() => {
+  userStore.setUsername(localStorage.getItem('username') as string)
+})
 </script>
 
 <template>
   <div class="container">
     <div class="top">
       <div class="navbar">
-        <h1 id="headline">SkyZ Playground</h1>
         <div class="navbar-row">
-          <button id="backBtn" @click="goToHome">‹</button>
-          <div id="username">Hallo {{userStore.username}}</div>
+          <button id="backBtn" @click="goToHome">↩︎</button>
+          <h1 id="headline">SkyZ Playground</h1>
         </div>
       </div>
+    </div>
+    <div class="welcome">
+      <div id="username">Hallo {{userStore.username}}</div>
+      <input id="gameSearch" type="text" placeholder="Suchen" autocomplete="off" v-model="inputSearch">
     </div>
     <div class="content">
       <div class="card-grid">
@@ -63,6 +69,42 @@ const gameCollection = new Map([
     z-index: 100;
     background-color: #252525;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 1rem;
+    max-width: 1990px;
+    width: 90%;
+    align-self: center;
+
+    #username {
+      margin-left: 10px;
+      font-size: 1.7rem;
+      font-weight: 800;
+      filter: drop-shadow(0 2px 8px rgba(255, 75, 43, 0.3));
+      animation: fadeIn 1s ease-out forwards;
+      max-width: 2000px;
+    }
+
+    #gameSearch {
+      margin-top: 1rem;
+      max-width: 350px;
+      padding: 14px 20px;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      background-color: #1a1a1a;
+      border: 2px solid #2a2a2a;
+      border-radius: 15px;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
   }
 
   .content {
@@ -125,10 +167,8 @@ const gameCollection = new Map([
     }
 
     #headline {
-      font-size: 3rem;
       font-weight: 900;
       font-style: italic;
-      letter-spacing: 3px;
       text-transform: uppercase;
       background: linear-gradient(135deg, #ff416c 30%, #ff4b2b 100%);
       -webkit-background-clip: text;
@@ -139,18 +179,11 @@ const gameCollection = new Map([
       animation: fadeIn 1s ease-out forwards;
     }
 
-    #username {
-      font-size: 1.2rem;
-      font-weight: 800;
-      filter: drop-shadow(0 2px 8px rgba(255, 75, 43, 0.3));
-      animation: fadeIn 1s ease-out forwards;
-    }
-
     #backBtn {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0;
+      padding-top: 8px;
       line-height: 1;
       width: 45px;
       height: 45px;
@@ -158,7 +191,7 @@ const gameCollection = new Map([
       font-weight: 800;
       color: #ffffff;
       border: none;
-      border-radius: 50%;
+      border-radius: 10px;
       cursor: pointer;
       background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
       box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
@@ -184,7 +217,6 @@ const gameCollection = new Map([
       flex-direction: column;
       height: auto;
       gap: 1rem;
-      padding-bottom: 1rem;
 
       #headline {
         font-size: 1.8rem;
