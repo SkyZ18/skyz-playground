@@ -1,21 +1,37 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {usePlayerCountStore} from "@/stores/playerCount.ts";
 
-const playerCount = ref(1)
+const playerCountStore = usePlayerCountStore();
+
+const playerCount = ref(2)
+const maxPlayerCount = ref(0)
+const minPlayerCount = ref(0)
 
 const increasePlayer = () => {
-  if(playerCount.value < 4) {
+  if(playerCount.value < maxPlayerCount.value) {
     playerCount.value++
     emit('sendPlayerCount', playerCount.value)
   }
 }
 
 const decreasePlayer = () => {
-  if(playerCount.value != 1) {
+  if(playerCount.value != minPlayerCount.value) {
     playerCount.value--
     emit('sendPlayerCount', playerCount.value)
   }
 }
+
+onMounted(() => {
+  switch(playerCountStore.gameString) {
+    case "Wahrheit o. Pflicht": {
+      maxPlayerCount.value = 4
+      minPlayerCount.value = 2
+      playerCount.value = minPlayerCount.value
+    }
+  }
+  emit("sendPlayerCount", playerCount.value)
+})
 
 const emit = defineEmits(['sendPlayerCount'])
 </script>

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import NavbarOrganism from "@/components/organisms/NavbarOrganism.vue";
 import {usePlayerCountStore} from "@/stores/playerCount.ts";
+import {useUserStore} from "@/stores/user.ts";
 
 const emit = defineEmits(["startGame"]);
 
 const playerCountStore = usePlayerCountStore();
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -13,8 +15,9 @@ const playerCountStore = usePlayerCountStore();
       <NavbarOrganism></NavbarOrganism>
     </div>
     <div class="content">
-      <div id="headline">Spielernamen eingeben</div>
-      <input id="playerNameInput" v-for="n in playerCountStore.playerCount" :placeholder="'Username ' + n">
+      <div id="headline">Spielernamen eingeben: </div>
+      <div id="mainPlayer">Spieler 1: {{ userStore.username }}</div>
+      <input id="playerNameInput" v-for="n in playerCountStore.playerCount" :placeholder="'Spieler ' + (n + 1)">
       <button id="startBtn" @click="emit('startGame')">Start</button>
     </div>
   </div>
@@ -50,11 +53,18 @@ const playerCountStore = usePlayerCountStore();
       max-width: 2000px;
     }
 
+    #mainPlayer {
+      margin-top: 80px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      max-width: 2000px;
+    }
+
     #playerNameInput {
       position: relative;
       display: flex;
-      margin-top: 1.5rem;
-      width: 100%;
+      margin-top: 1.8rem;
+      width: 70%;
       max-width: 400px;
       padding: 14px 20px;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;

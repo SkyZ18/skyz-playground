@@ -33,7 +33,7 @@ onMounted(() => {
       <div id="headline">Wahrheit <br> o. Pflicht</div>
       <InfoButtonOrganism :description="description"></InfoButtonOrganism>
       <PlayerCountOrganism @sendPlayerCount="getCount"></PlayerCountOrganism>
-      <button id="startBtn" @click="playerCountStore.setPlayerCount(playerCount); emit('playerName')">Start</button>
+      <button id="startBtn" @click="playerCountStore.setPlayerCount(--playerCount); emit('playerName')">Start</button>
     </div>
   </div>
 </template>

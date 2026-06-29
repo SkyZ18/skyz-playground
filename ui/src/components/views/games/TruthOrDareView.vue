@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import StartSiteOrganism from "@/components/organisms/truthOrDare/StartSiteOrganism.vue";
 import PlayerNameSiteOrganism from "@/components/organisms/truthOrDare/PlayerNameSiteOrganism.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import GameSite from "@/components/organisms/truthOrDare/GameSite.vue";
+import {useUserStore} from "@/stores/user.ts";
+
+const userStore = useUserStore();
 
 const playerNames = ref(false)
 const game = ref(false)
@@ -14,6 +17,10 @@ const startPlayerNames = () => {
 const startGame = () => {
   game.value = true
 }
+
+onMounted(() => {
+  userStore.setUsername(localStorage.getItem('username') as string)
+})
 </script>
 
 <template>

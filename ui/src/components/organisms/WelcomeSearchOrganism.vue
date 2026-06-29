@@ -30,7 +30,6 @@ const inputSearch = ref('')
     margin-left: 10px;
     font-size: 1.7rem;
     font-weight: 800;
-    filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.3));
     max-width: 2000px;
   }
 
